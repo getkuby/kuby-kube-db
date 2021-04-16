@@ -54,37 +54,37 @@ module Kuby
       private
 
       def install_operator
-        helm_cli.install_chart(OPERATOR_CHART_NAME, {
+        helm_cli.install_chart(OPERATOR_CHART_NAME,
           release: OPERATOR_RELEASE_NAME,
           version: Kuby::KubeDB::KUBEDB_VERSION,
           namespace: NAMESPACE,
           params: OPERATOR_PARAMS
-        })
+        )
       end
 
       def upgrade_operator
-        helm_cli.upgrade_chart(OPERATOR_CHART_NAME, {
+        helm_cli.upgrade_chart(OPERATOR_CHART_NAME,
           release: OPERATOR_RELEASE_NAME,
           version: Kuby::KubeDB::KUBEDB_VERSION,
           namespace: NAMESPACE,
           params: OPERATOR_PARAMS
-        })
+        )
       end
 
       def install_catalog
-        helm_cli.install_chart(CATALOG_CHART_NAME, {
+        helm_cli.install_chart(CATALOG_CHART_NAME,
           release: CATALOG_RELEASE_NAME,
           version: Kuby::KubeDB::KUBEDB_VERSION,
           namespace: NAMESPACE
-        })
+        )
       end
 
       def upgrade_catalog
-        helm_cli.upgrade_chart(CATALOG_CHART_NAME, {
+        helm_cli.upgrade_chart(CATALOG_CHART_NAME,
           release: CATALOG_RELEASE_NAME,
           version: Kuby::KubeDB::KUBEDB_VERSION,
           namespace: NAMESPACE
-        })
+        )
       end
 
       def wait_for_operator
