@@ -1,3 +1,6 @@
+## 0.6.1
+* Pass keyword arguments correctly to helm-cli (#1, @rept)
+
 ## 0.6.0
 * Wait for API resources to become available.
   - Krane queries k8s for API resources which causes kubectl to exit with a non-zero status code if KubeDB's operator isn't finished spinning up.
