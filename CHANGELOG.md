@@ -1,3 +1,6 @@
+## 0.6.2
+* Fix bad constant references
+
 ## 0.6.1
 * Pass keyword arguments correctly to helm-cli (#1, @rept)
 
