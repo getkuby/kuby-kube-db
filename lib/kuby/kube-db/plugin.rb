@@ -167,7 +167,7 @@ module Kuby
         kubernetes_cli.get_object(
           'Deployment', NAMESPACE, OPERATOR_DEPLOYMENT_NAME
         )
-      rescue ::Kuby::Kubernetes::GetResourceError
+      rescue ::KubernetesCLI::GetResourceError
         nil
       end
 
@@ -180,7 +180,7 @@ module Kuby
           rs.dig('metadata', 'ownerReferences').any? { |ref| ref['uid'] == depl.dig('metadata', 'uid') } &&
             rs.dig('metadata', 'annotations', 'deployment.kubernetes.io/revision') == current_revision
         end
-      rescue ::Kuby::Kubernetes::GetResourceError
+      rescue ::KubernetesCLI::GetResourceError
         nil
       end
 
