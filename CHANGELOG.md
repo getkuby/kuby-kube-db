@@ -1,3 +1,7 @@
+## 0.7.0
+* Upgrade to Helm 3.6 via helm-rb.
+* Check operator replica set more effectively by using match labels during lookup.
+
 ## 0.6.2
 * Fix bad constant references
 

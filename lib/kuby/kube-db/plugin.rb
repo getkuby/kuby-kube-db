@@ -27,18 +27,25 @@ module Kuby
 
       OPERATOR_PARAMS.freeze
 
-      def setup
-        Kuby.logger.info('Setting up kubedb')
+      REPLICA_SET_MATCH_LABELS = {
+        'release' => OPERATOR_RELEASE_NAME,
+        'app' => 'kubedb'
+      }
 
-        Kuby.logger.info('Fetching Helm chart')
+      REPLICA_SET_MATCH_LABELS.freeze
+
+      def setup
+        Kuby.logger.info('Setting up KubeDB')
+
+        Kuby.logger.info('Fetching KubeDB Helm chart')
         helm_cli.add_repo(REPO_NAME, REPO_URL)
         helm_cli.update_repos
 
-        Kuby.logger.info('Deploying kubedb operator')
+        Kuby.logger.info('Deploying KubeDB operator')
         operator_deployed? ? upgrade_operator : install_operator
 
         wait_for_operator do
-          Kuby.logger.info('Waiting for kubedb operator deployment')
+          Kuby.logger.info('Waiting for KubeDB operator deployment')
         end
 
         wait_for_api_resources do
@@ -48,7 +55,7 @@ module Kuby
         Kuby.logger.info('Deploying kubedb catalog')
         catalog_deployed? ? upgrade_catalog : install_catalog
 
-        Kuby.logger.info('Kubedb setup finished')
+        Kuby.logger.info('KubeDB setup finished')
       end
 
       private
@@ -172,8 +179,7 @@ module Kuby
       end
 
       def find_operator_rs(depl)
-        match_labels = depl.dig('metadata', 'labels')
-        all_rs_data = kubernetes_cli.get_objects('ReplicaSet', NAMESPACE, match_labels)
+        all_rs_data = kubernetes_cli.get_objects('ReplicaSet', NAMESPACE, REPLICA_SET_MATCH_LABELS)
         current_revision = depl.dig('metadata', 'annotations', 'deployment.kubernetes.io/revision')
 
         all_rs_data.find do |rs|
