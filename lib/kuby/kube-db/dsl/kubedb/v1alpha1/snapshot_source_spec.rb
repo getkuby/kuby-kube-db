@@ -1,6 +1,12 @@
 module Kuby::KubeDB::DSL::Kubedb::V1alpha1
   class SnapshotSourceSpec < ::KubeDSL::DSLObject
-    value_fields :args, :namespace, :name
+    value_field :args
+    value_field :namespace
+    value_field :name
+
+    validates :args, field: { format: :string }, presence: false
+    validates :namespace, field: { format: :string }, presence: false
+    validates :name, field: { format: :string }, presence: false
 
     def serialize
       {}.tap do |result|

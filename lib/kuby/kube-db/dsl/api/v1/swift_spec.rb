@@ -1,6 +1,10 @@
-module Kuby::KubeDB::DSL::Api::V1
+module Kuby::KubeDB::DSL::API::V1
   class SwiftSpec < ::KubeDSL::DSLObject
-    value_fields :prefix, :container
+    value_field :prefix
+    value_field :container
+
+    validates :prefix, field: { format: :string }, presence: false
+    validates :container, field: { format: :string }, presence: false
 
     def serialize
       {}.tap do |result|

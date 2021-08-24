@@ -4,6 +4,10 @@ module Kuby::KubeDB::DSL::Kubedb::V1alpha1
     object_field(:mongos) { Kuby::KubeDB::DSL::Kubedb::V1alpha1::MongoDBMongosNode.new }
     object_field(:config_server) { Kuby::KubeDB::DSL::Kubedb::V1alpha1::MongoDBConfigNode.new }
 
+    validates :shard, object: { kind_of: Kuby::KubeDB::DSL::Kubedb::V1alpha1::MongoDBShardNode }
+    validates :mongos, object: { kind_of: Kuby::KubeDB::DSL::Kubedb::V1alpha1::MongoDBMongosNode }
+    validates :config_server, object: { kind_of: Kuby::KubeDB::DSL::Kubedb::V1alpha1::MongoDBConfigNode }
+
     def serialize
       {}.tap do |result|
         result[:shard] = shard.serialize

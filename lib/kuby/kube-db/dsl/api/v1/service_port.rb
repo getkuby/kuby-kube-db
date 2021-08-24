@@ -1,6 +1,12 @@
-module Kuby::KubeDB::DSL::Api::V1
+module Kuby::KubeDB::DSL::API::V1
   class ServicePort < ::KubeDSL::DSLObject
-    value_fields :port, :name, :node_port
+    value_field :port
+    value_field :name
+    value_field :node_port
+
+    validates :port, field: { format: :integer }, presence: true
+    validates :name, field: { format: :string }, presence: false
+    validates :node_port, field: { format: :integer }, presence: true
 
     def serialize
       {}.tap do |result|

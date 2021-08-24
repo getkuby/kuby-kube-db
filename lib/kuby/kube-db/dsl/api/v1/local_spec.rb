@@ -1,6 +1,5 @@
-module Kuby::KubeDB::DSL::Api::V1
+module Kuby::KubeDB::DSL::API::V1
   class LocalSpec < ::KubeDSL::DSLObject
-    value_fields :sub_path, :mount_path
     object_field(:portworx_volume) { KubeDSL::DSL::V1::PortworxVolumeSource.new }
     object_field(:glusterfs) { KubeDSL::DSL::V1::GlusterfsVolumeSource.new }
     object_field(:git_repo) { KubeDSL::DSL::V1::GitRepoVolumeSource.new }
@@ -12,12 +11,14 @@ module Kuby::KubeDB::DSL::Api::V1
     object_field(:scale_io) { KubeDSL::DSL::V1::ScaleIOVolumeSource.new }
     object_field(:photon_persistent_disk) { KubeDSL::DSL::V1::PhotonPersistentDiskVolumeSource.new }
     object_field(:azure_disk) { KubeDSL::DSL::V1::AzureDiskVolumeSource.new }
+    value_field :sub_path
     object_field(:fc) { KubeDSL::DSL::V1::FCVolumeSource.new }
     object_field(:flex_volume) { KubeDSL::DSL::V1::FlexVolumeSource.new }
     object_field(:empty_dir) { KubeDSL::DSL::V1::EmptyDirVolumeSource.new }
     object_field(:rbd) { KubeDSL::DSL::V1::RBDVolumeSource.new }
     object_field(:persistent_volume_claim) { KubeDSL::DSL::V1::PersistentVolumeClaimVolumeSource.new }
     object_field(:config_map) { KubeDSL::DSL::V1::ConfigMapVolumeSource.new }
+    value_field :mount_path
     object_field(:azure_file) { KubeDSL::DSL::V1::AzureFileVolumeSource.new }
     object_field(:quobyte) { KubeDSL::DSL::V1::QuobyteVolumeSource.new }
     object_field(:host_path) { KubeDSL::DSL::V1::HostPathVolumeSource.new }
@@ -29,10 +30,38 @@ module Kuby::KubeDB::DSL::Api::V1
     object_field(:downward_api) { KubeDSL::DSL::V1::DownwardAPIVolumeSource.new }
     object_field(:gce_persistent_disk) { KubeDSL::DSL::V1::GCEPersistentDiskVolumeSource.new }
 
+    validates :portworx_volume, object: { kind_of: KubeDSL::DSL::V1::PortworxVolumeSource }
+    validates :glusterfs, object: { kind_of: KubeDSL::DSL::V1::GlusterfsVolumeSource }
+    validates :git_repo, object: { kind_of: KubeDSL::DSL::V1::GitRepoVolumeSource }
+    validates :flocker, object: { kind_of: KubeDSL::DSL::V1::FlockerVolumeSource }
+    validates :storageos, object: { kind_of: KubeDSL::DSL::V1::StorageOSVolumeSource }
+    validates :iscsi, object: { kind_of: KubeDSL::DSL::V1::ISCSIVolumeSource }
+    validates :projected, object: { kind_of: KubeDSL::DSL::V1::ProjectedVolumeSource }
+    validates :secret, object: { kind_of: KubeDSL::DSL::V1::SecretVolumeSource }
+    validates :scale_io, object: { kind_of: KubeDSL::DSL::V1::ScaleIOVolumeSource }
+    validates :photon_persistent_disk, object: { kind_of: KubeDSL::DSL::V1::PhotonPersistentDiskVolumeSource }
+    validates :azure_disk, object: { kind_of: KubeDSL::DSL::V1::AzureDiskVolumeSource }
+    validates :sub_path, field: { format: :string }, presence: false
+    validates :fc, object: { kind_of: KubeDSL::DSL::V1::FCVolumeSource }
+    validates :flex_volume, object: { kind_of: KubeDSL::DSL::V1::FlexVolumeSource }
+    validates :empty_dir, object: { kind_of: KubeDSL::DSL::V1::EmptyDirVolumeSource }
+    validates :rbd, object: { kind_of: KubeDSL::DSL::V1::RBDVolumeSource }
+    validates :persistent_volume_claim, object: { kind_of: KubeDSL::DSL::V1::PersistentVolumeClaimVolumeSource }
+    validates :config_map, object: { kind_of: KubeDSL::DSL::V1::ConfigMapVolumeSource }
+    validates :mount_path, field: { format: :string }, presence: false
+    validates :azure_file, object: { kind_of: KubeDSL::DSL::V1::AzureFileVolumeSource }
+    validates :quobyte, object: { kind_of: KubeDSL::DSL::V1::QuobyteVolumeSource }
+    validates :host_path, object: { kind_of: KubeDSL::DSL::V1::HostPathVolumeSource }
+    validates :nfs, object: { kind_of: KubeDSL::DSL::V1::NFSVolumeSource }
+    validates :vsphere_volume, object: { kind_of: KubeDSL::DSL::V1::VsphereVirtualDiskVolumeSource }
+    validates :cinder, object: { kind_of: KubeDSL::DSL::V1::CinderVolumeSource }
+    validates :aws_elastic_block_store, object: { kind_of: KubeDSL::DSL::V1::AWSElasticBlockStoreVolumeSource }
+    validates :cephfs, object: { kind_of: KubeDSL::DSL::V1::CephFSVolumeSource }
+    validates :downward_api, object: { kind_of: KubeDSL::DSL::V1::DownwardAPIVolumeSource }
+    validates :gce_persistent_disk, object: { kind_of: KubeDSL::DSL::V1::GCEPersistentDiskVolumeSource }
+
     def serialize
       {}.tap do |result|
-        result[:subPath] = sub_path
-        result[:mountPath] = mount_path
         result[:portworxVolume] = portworx_volume.serialize
         result[:glusterfs] = glusterfs.serialize
         result[:gitRepo] = git_repo.serialize
@@ -44,12 +73,14 @@ module Kuby::KubeDB::DSL::Api::V1
         result[:scaleIO] = scale_io.serialize
         result[:photonPersistentDisk] = photon_persistent_disk.serialize
         result[:azureDisk] = azure_disk.serialize
+        result[:subPath] = sub_path
         result[:fc] = fc.serialize
         result[:flexVolume] = flex_volume.serialize
         result[:emptyDir] = empty_dir.serialize
         result[:rbd] = rbd.serialize
         result[:persistentVolumeClaim] = persistent_volume_claim.serialize
         result[:configMap] = config_map.serialize
+        result[:mountPath] = mount_path
         result[:azureFile] = azure_file.serialize
         result[:quobyte] = quobyte.serialize
         result[:hostPath] = host_path.serialize

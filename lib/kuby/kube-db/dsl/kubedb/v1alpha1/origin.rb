@@ -3,6 +3,9 @@ module Kuby::KubeDB::DSL::Kubedb::V1alpha1
     object_field(:spec) { Kuby::KubeDB::DSL::Kubedb::V1alpha1::OriginSpec.new }
     object_field(:metadata) { KubeDSL::DSL::Meta::V1::ObjectMeta.new }
 
+    validates :spec, object: { kind_of: Kuby::KubeDB::DSL::Kubedb::V1alpha1::OriginSpec }
+    validates :metadata, object: { kind_of: KubeDSL::DSL::Meta::V1::ObjectMeta }
+
     def serialize
       {}.tap do |result|
         result[:spec] = spec.serialize

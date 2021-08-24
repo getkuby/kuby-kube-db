@@ -1,12 +1,15 @@
 module Kuby::KubeDB::DSL::Kubedb::V1alpha1
   class MongoDBReplicaSet < ::KubeDSL::DSLObject
-    value_fields :name
     object_field(:key_file) { KubeDSL::DSL::V1::SecretVolumeSource.new }
+    value_field :name
+
+    validates :key_file, object: { kind_of: KubeDSL::DSL::V1::SecretVolumeSource }
+    validates :name, field: { format: :string }, presence: false
 
     def serialize
       {}.tap do |result|
-        result[:name] = name
         result[:keyFile] = key_file.serialize
+        result[:name] = name
       end
     end
 

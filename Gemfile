@@ -7,8 +7,8 @@ group :development do
 end
 
 group :development, :test do
-  gem 'kuby-core', path: '../kuby-core'
-  gem 'kuby-cert-manager', path: '../kuby-cert-manager'
+  gem 'kuby-core' #, path: '../kuby-core'
+  gem 'kuby-cert-manager' #, path: '../kuby-cert-manager'
   gem 'pry-byebug'
   gem 'rake'
 end

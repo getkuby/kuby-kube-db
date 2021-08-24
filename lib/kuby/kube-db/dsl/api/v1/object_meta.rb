@@ -1,6 +1,8 @@
-module Kuby::KubeDB::DSL::Api::V1
+module Kuby::KubeDB::DSL::API::V1
   class ObjectMeta < ::KubeDSL::DSLObject
     key_value_field(:annotations, format: :string)
+
+    validates :annotations, kv: { value_format: :string }, presence: true
 
     def serialize
       {}.tap do |result|

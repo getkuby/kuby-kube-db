@@ -1,6 +1,8 @@
-module Kuby::KubeDB::DSL::Api::V1
+module Kuby::KubeDB::DSL::API::V1
   class RestServerSpec < ::KubeDSL::DSLObject
-    value_fields :url
+    value_field :url
+
+    validates :url, field: { format: :string }, presence: false
 
     def serialize
       {}.tap do |result|

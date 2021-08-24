@@ -1,13 +1,22 @@
-module Kuby::KubeDB::DSL::Api::V1
+module Kuby::KubeDB::DSL::API::V1
   class Backend < ::KubeDSL::DSLObject
-    value_fields :storage_secret_name
-    object_field(:s3) { Kuby::KubeDB::DSL::Api::V1::S3Spec.new }
-    object_field(:swift) { Kuby::KubeDB::DSL::Api::V1::SwiftSpec.new }
-    object_field(:rest) { Kuby::KubeDB::DSL::Api::V1::RestServerSpec.new }
-    object_field(:gcs) { Kuby::KubeDB::DSL::Api::V1::GCSSpec.new }
-    object_field(:b2) { Kuby::KubeDB::DSL::Api::V1::B2Spec.new }
-    object_field(:azure) { Kuby::KubeDB::DSL::Api::V1::AzureSpec.new }
-    object_field(:local) { Kuby::KubeDB::DSL::Api::V1::LocalSpec.new }
+    value_field :storage_secret_name
+    object_field(:s3) { Kuby::KubeDB::DSL::API::V1::S3Spec.new }
+    object_field(:swift) { Kuby::KubeDB::DSL::API::V1::SwiftSpec.new }
+    object_field(:rest) { Kuby::KubeDB::DSL::API::V1::RestServerSpec.new }
+    object_field(:gcs) { Kuby::KubeDB::DSL::API::V1::GCSSpec.new }
+    object_field(:b2) { Kuby::KubeDB::DSL::API::V1::B2Spec.new }
+    object_field(:azure) { Kuby::KubeDB::DSL::API::V1::AzureSpec.new }
+    object_field(:local) { Kuby::KubeDB::DSL::API::V1::LocalSpec.new }
+
+    validates :storage_secret_name, field: { format: :string }, presence: false
+    validates :s3, object: { kind_of: Kuby::KubeDB::DSL::API::V1::S3Spec }
+    validates :swift, object: { kind_of: Kuby::KubeDB::DSL::API::V1::SwiftSpec }
+    validates :rest, object: { kind_of: Kuby::KubeDB::DSL::API::V1::RestServerSpec }
+    validates :gcs, object: { kind_of: Kuby::KubeDB::DSL::API::V1::GCSSpec }
+    validates :b2, object: { kind_of: Kuby::KubeDB::DSL::API::V1::B2Spec }
+    validates :azure, object: { kind_of: Kuby::KubeDB::DSL::API::V1::AzureSpec }
+    validates :local, object: { kind_of: Kuby::KubeDB::DSL::API::V1::LocalSpec }
 
     def serialize
       {}.tap do |result|

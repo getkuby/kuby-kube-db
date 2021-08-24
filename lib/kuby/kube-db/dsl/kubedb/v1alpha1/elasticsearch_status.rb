@@ -1,6 +1,12 @@
 module Kuby::KubeDB::DSL::Kubedb::V1alpha1
   class ElasticsearchStatus < ::KubeDSL::DSLObject
-    value_fields :observed_generation, :phase, :reason
+    value_field :observed_generation
+    value_field :phase
+    value_field :reason
+
+    validates :observed_generation, field: { format: :string }, presence: false
+    validates :phase, field: { format: :string }, presence: false
+    validates :reason, field: { format: :string }, presence: false
 
     def serialize
       {}.tap do |result|

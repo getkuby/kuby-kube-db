@@ -1,6 +1,8 @@
 module Kuby::KubeDB::DSL::Kubedb::V1alpha1
   class PostgresArchiverSpec < ::KubeDSL::DSLObject
-    object_field(:storage) { Kuby::KubeDB::DSL::Api::V1::Backend.new }
+    object_field(:storage) { Kuby::KubeDB::DSL::API::V1::Backend.new }
+
+    validates :storage, object: { kind_of: Kuby::KubeDB::DSL::API::V1::Backend }
 
     def serialize
       {}.tap do |result|

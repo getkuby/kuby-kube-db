@@ -1,6 +1,14 @@
 module Kuby::KubeDB::DSL::Authorization::V1alpha1
   class DatabaseAccessRequestCondition < ::KubeDSL::DSLObject
-    value_fields :message, :type, :reason, :last_update_time
+    value_field :message
+    value_field :type
+    value_field :reason
+    value_field :last_update_time
+
+    validates :message, field: { format: :string }, presence: false
+    validates :type, field: { format: :string }, presence: false
+    validates :reason, field: { format: :string }, presence: false
+    validates :last_update_time, field: { format: :string }, presence: false
 
     def serialize
       {}.tap do |result|

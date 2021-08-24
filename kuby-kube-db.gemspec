@@ -14,7 +14,7 @@ Gem::Specification.new do |s|
 
   s.add_dependency 'helm-cli', '~> 0.3'
   s.add_dependency 'helm-rb', '~> 0.2'
-  s.add_dependency 'kube-dsl', '~> 0.3'
+  s.add_dependency 'kube-dsl', '~> 0.6'
 
   s.require_path = 'lib'
   s.files = Dir['{lib,spec}/**/*', 'Gemfile', 'LICENSE', 'CHANGELOG.md', 'README.md', 'Rakefile', 'kuby-kube-db.gemspec']

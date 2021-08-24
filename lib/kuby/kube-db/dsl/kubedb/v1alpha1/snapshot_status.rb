@@ -1,6 +1,16 @@
 module Kuby::KubeDB::DSL::Kubedb::V1alpha1
   class SnapshotStatus < ::KubeDSL::DSLObject
-    value_fields :observed_generation, :phase, :reason, :completion_time, :start_time
+    value_field :observed_generation
+    value_field :phase
+    value_field :reason
+    value_field :completion_time
+    value_field :start_time
+
+    validates :observed_generation, field: { format: :string }, presence: false
+    validates :phase, field: { format: :string }, presence: false
+    validates :reason, field: { format: :string }, presence: false
+    validates :completion_time, field: { format: :string }, presence: false
+    validates :start_time, field: { format: :string }, presence: false
 
     def serialize
       {}.tap do |result|

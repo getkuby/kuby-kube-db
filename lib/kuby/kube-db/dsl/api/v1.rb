@@ -1,4 +1,4 @@
-module Kuby::KubeDB::DSL::Api::V1
+module Kuby::KubeDB::DSL::API::V1
   autoload :RestServerSpec, 'kuby/kube-db/dsl/api/v1/rest_server_spec'
   autoload :ServicePort, 'kuby/kube-db/dsl/api/v1/service_port'
   autoload :LocalSpec, 'kuby/kube-db/dsl/api/v1/local_spec'

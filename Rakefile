@@ -40,35 +40,36 @@ task :generate do
     END
   end
 
-  Dir.chdir('lib') do
-    generator = KubeDSL::Generator.new(
-      schema_dir: File.join('..', local_json_schema_path),
-      output_dir: File.join('kuby', 'kube-db', 'dsl'),
-      inflector: Dry::Inflector.new do |inflections|
-        inflections.acronym('DSL')
-        inflections.acronym('DB')
-      end
+  generator = KubeDSL::Generator.new(
+    schema_dir: local_json_schema_path,
+    output_dir: File.join('lib'),
+    autoload_prefix: File.join('kuby', 'kube-db', 'dsl'),
+    dsl_namespace: ['Kuby', 'KubeDB', 'DSL'],
+    entrypoint_namespace: ['Kuby', 'KubeDB'],
+    inflector: Dry::Inflector.new do |inflections|
+      inflections.acronym('DSL')
+      inflections.acronym('DB')
+    end
+  )
+
+  # WTF even is xyz.kmodules??
+  generator.builder.register_resolver('io.k8s', 'xyz.kmodules') do |ref_str, builder|
+    external_ref = ::KubeDSL::ExternalRef.new(
+      ref_str,
+      ['KubeDSL', 'DSL'],
+      builder.inflector,
+      builder.schema_dir,
+      builder.autoload_prefix
     )
 
-    # WTF even is xyz.kmodules??
-    generator.builder.register_resolver('io.k8s', 'xyz.kmodules') do |ref_str, builder|
-      external_ref = ::KubeDSL::ExternalRef.new(
-        ref_str,
-        ['KubeDSL', 'DSL'],
-        'kube-dsl/dsl',
-        builder.inflector,
-        builder.schema_dir
-      )
+    ns = external_ref.ruby_namespace + [external_ref.kind]
+    exists = ns.inject(Object) { |mod, n| mod.const_get(n, false) } rescue false
+    exists ? external_ref : builder.parse_ref(ref_str)
+  end
 
-      ns = external_ref.ruby_namespace + [external_ref.kind]
-      exists = ns.inject(Object) { |mod, n| mod.const_get(n, false) } rescue false
-      exists ? external_ref : builder.parse_ref(ref_str)
-    end
-
-    generator.generate_resource_files
-    generator.generate_autoload_files
-    generator.generate_entrypoint_file do |resource, ns|
-      ns =~ /Kuby::KubeDB::DSL::Kubedb::V1alpha1/
-    end
+  generator.generate_resource_files
+  generator.generate_autoload_files
+  generator.generate_entrypoint_file do |resource, ns|
+    ns =~ /Kuby::KubeDB::DSL::Kubedb::V1alpha1/
   end
 end

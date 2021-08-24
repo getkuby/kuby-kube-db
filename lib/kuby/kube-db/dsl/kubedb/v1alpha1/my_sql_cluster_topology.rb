@@ -1,12 +1,15 @@
 module Kuby::KubeDB::DSL::Kubedb::V1alpha1
   class MySQLClusterTopology < ::KubeDSL::DSLObject
-    value_fields :mode
     object_field(:group) { Kuby::KubeDB::DSL::Kubedb::V1alpha1::MySQLGroupSpec.new }
+    value_field :mode
+
+    validates :group, object: { kind_of: Kuby::KubeDB::DSL::Kubedb::V1alpha1::MySQLGroupSpec }
+    validates :mode, field: { format: :string }, presence: false
 
     def serialize
       {}.tap do |result|
-        result[:mode] = mode
         result[:group] = group.serialize
+        result[:mode] = mode
       end
     end
 

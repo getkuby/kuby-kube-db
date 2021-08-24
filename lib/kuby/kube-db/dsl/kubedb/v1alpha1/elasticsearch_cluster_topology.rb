@@ -4,6 +4,10 @@ module Kuby::KubeDB::DSL::Kubedb::V1alpha1
     object_field(:client) { Kuby::KubeDB::DSL::Kubedb::V1alpha1::ElasticsearchNode.new }
     object_field(:data) { Kuby::KubeDB::DSL::Kubedb::V1alpha1::ElasticsearchNode.new }
 
+    validates :master, object: { kind_of: Kuby::KubeDB::DSL::Kubedb::V1alpha1::ElasticsearchNode }
+    validates :client, object: { kind_of: Kuby::KubeDB::DSL::Kubedb::V1alpha1::ElasticsearchNode }
+    validates :data, object: { kind_of: Kuby::KubeDB::DSL::Kubedb::V1alpha1::ElasticsearchNode }
+
     def serialize
       {}.tap do |result|
         result[:master] = master.serialize

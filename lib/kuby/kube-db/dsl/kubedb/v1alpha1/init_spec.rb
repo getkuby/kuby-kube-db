@@ -4,6 +4,10 @@ module Kuby::KubeDB::DSL::Kubedb::V1alpha1
     object_field(:snapshot_source) { Kuby::KubeDB::DSL::Kubedb::V1alpha1::SnapshotSourceSpec.new }
     object_field(:script_source) { Kuby::KubeDB::DSL::Kubedb::V1alpha1::ScriptSourceSpec.new }
 
+    validates :postgres_wal, object: { kind_of: Kuby::KubeDB::DSL::Kubedb::V1alpha1::PostgresWALSourceSpec }
+    validates :snapshot_source, object: { kind_of: Kuby::KubeDB::DSL::Kubedb::V1alpha1::SnapshotSourceSpec }
+    validates :script_source, object: { kind_of: Kuby::KubeDB::DSL::Kubedb::V1alpha1::ScriptSourceSpec }
+
     def serialize
       {}.tap do |result|
         result[:postgresWAL] = postgres_wal.serialize

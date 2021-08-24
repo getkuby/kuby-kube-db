@@ -8,6 +8,14 @@ module Kuby::KubeDB::DSL::Kubedb::V1alpha1
     object_field(:mysql) { Kuby::KubeDB::DSL::Kubedb::V1alpha1::MySQLSpec.new }
     object_field(:memcached) { Kuby::KubeDB::DSL::Kubedb::V1alpha1::MemcachedSpec.new }
 
+    validates :postgres, object: { kind_of: Kuby::KubeDB::DSL::Kubedb::V1alpha1::PostgresSpec }
+    validates :mongodb, object: { kind_of: Kuby::KubeDB::DSL::Kubedb::V1alpha1::MongoDBSpec }
+    validates :redis, object: { kind_of: Kuby::KubeDB::DSL::Kubedb::V1alpha1::RedisSpec }
+    validates :elasticsearch, object: { kind_of: Kuby::KubeDB::DSL::Kubedb::V1alpha1::ElasticsearchSpec }
+    validates :etcd, object: { kind_of: Kuby::KubeDB::DSL::Kubedb::V1alpha1::EtcdSpec }
+    validates :mysql, object: { kind_of: Kuby::KubeDB::DSL::Kubedb::V1alpha1::MySQLSpec }
+    validates :memcached, object: { kind_of: Kuby::KubeDB::DSL::Kubedb::V1alpha1::MemcachedSpec }
+
     def serialize
       {}.tap do |result|
         result[:postgres] = postgres.serialize

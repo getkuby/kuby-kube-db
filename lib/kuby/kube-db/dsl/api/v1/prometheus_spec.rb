@@ -1,14 +1,21 @@
-module Kuby::KubeDB::DSL::Api::V1
+module Kuby::KubeDB::DSL::API::V1
   class PrometheusSpec < ::KubeDSL::DSLObject
-    value_fields :namespace, :port, :interval
     key_value_field(:labels, format: :string)
+    value_field :namespace
+    value_field :port
+    value_field :interval
+
+    validates :labels, kv: { value_format: :string }, presence: true
+    validates :namespace, field: { format: :string }, presence: false
+    validates :port, field: { format: :integer }, presence: true
+    validates :interval, field: { format: :string }, presence: false
 
     def serialize
       {}.tap do |result|
+        result[:labels] = labels.serialize
         result[:namespace] = namespace
         result[:port] = port
         result[:interval] = interval
-        result[:labels] = labels.serialize
       end
     end
 

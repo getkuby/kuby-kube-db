@@ -1,6 +1,8 @@
 module Kuby::KubeDB::DSL::Catalog::V1alpha1
   class MemcachedVersionPodSecurityPolicy < ::KubeDSL::DSLObject
-    value_fields :database_policy_name
+    value_field :database_policy_name
+
+    validates :database_policy_name, field: { format: :string }, presence: false
 
     def serialize
       {}.tap do |result|

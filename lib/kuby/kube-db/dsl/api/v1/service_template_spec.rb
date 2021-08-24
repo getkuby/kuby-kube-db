@@ -1,7 +1,10 @@
-module Kuby::KubeDB::DSL::Api::V1
+module Kuby::KubeDB::DSL::API::V1
   class ServiceTemplateSpec < ::KubeDSL::DSLObject
-    object_field(:spec) { Kuby::KubeDB::DSL::Api::V1::ServiceSpec.new }
-    object_field(:metadata) { Kuby::KubeDB::DSL::Api::V1::ObjectMeta.new }
+    object_field(:spec) { Kuby::KubeDB::DSL::API::V1::ServiceSpec.new }
+    object_field(:metadata) { Kuby::KubeDB::DSL::API::V1::ObjectMeta.new }
+
+    validates :spec, object: { kind_of: Kuby::KubeDB::DSL::API::V1::ServiceSpec }
+    validates :metadata, object: { kind_of: Kuby::KubeDB::DSL::API::V1::ObjectMeta }
 
     def serialize
       {}.tap do |result|

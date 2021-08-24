@@ -1,6 +1,10 @@
 module Kuby::KubeDB::DSL::Kubedb::V1alpha1
   class MemberSecret < ::KubeDSL::DSLObject
-    value_fields :peer_secret, :server_secret
+    value_field :peer_secret
+    value_field :server_secret
+
+    validates :peer_secret, field: { format: :string }, presence: false
+    validates :server_secret, field: { format: :string }, presence: false
 
     def serialize
       {}.tap do |result|
