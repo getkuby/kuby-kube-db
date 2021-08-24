@@ -72,4 +72,6 @@ task :generate do
   generator.generate_entrypoint_file do |resource, ns|
     ns =~ /Kuby::KubeDB::DSL::Kubedb::V1alpha1/
   end
+
+  FileUtils.rm_rf(File.join('lib', 'kuby.rb'))
 end
